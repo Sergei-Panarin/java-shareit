@@ -9,17 +9,14 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public ItemRequest getItemRequestById(Long id) {
         return null;
     }
-
     @Override
     public ItemRequest createItemRequest(ItemRequest itemRequest) {
         return null;
     }
-
     @Override
     public ItemRequest updateItemRequest(ItemRequest itemRequest) {
         return null;
     }
-
     @Override
     public boolean deleteItemRequestById(Long id) {
         return false;

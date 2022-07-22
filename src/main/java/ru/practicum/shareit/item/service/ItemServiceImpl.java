@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
-import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.List;
 
@@ -43,13 +42,13 @@ public class ItemServiceImpl implements ItemService {
         if (!updateItem.getOwner().getId().equals(ownerId)) {
             throw new NotFoundException("Редактировать вещь может только её владелец");
         }
-        if (item.getName()!=null && !item.getName().isBlank()) {
+        if (item.getName() != null && !item.getName().isBlank()) {
             updateItem.setName(item.getName());
         }
-        if (item.getDescription()!=null && !item.getDescription().isBlank()) {
+        if (item.getDescription() != null && !item.getDescription().isBlank()) {
             updateItem.setDescription(item.getDescription());
         }
-        if (item.getAvailable()!=null) {
+        if (item.getAvailable() != null) {
             updateItem.setAvailable(item.getAvailable());
         }
         return itemRepository.updateItem(updateItem);
@@ -57,7 +56,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> searchItemsByText(String text) {
-
         return itemRepository.searchItemsByText(text);
     }
 
