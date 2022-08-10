@@ -10,28 +10,38 @@ import ru.practicum.shareit.user.service.UserService;
 @RequiredArgsConstructor
 public class ItemMapper {
 
-    private final UserService userService;
-    private final ItemRequestService itemRequestService;
-
-    public ItemDto toItemDto(Item item) {
+    public static ItemDto toItemDto(Item item) {
         return new ItemDto(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getOwner() != null ? item.getOwner().getId() : null,
-                item.getRequest() != null ? item.getRequest().getId() : null
+                new ItemDto.UserDto(item.getOwner().getId(), item.getOwner().getName()),
+                null,
+                null,
+                null
         );
     }
 
-    public Item toItem(ItemDto itemDto) {
+    public static Item toItem(ItemDto itemDto) {
         return new Item(
                 itemDto.getId(),
                 itemDto.getName(),
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
-                itemDto.getOwnerId() != null ? userService.getUserById(itemDto.getOwnerId()) : null,
-                itemRequestService.getItemRequestById(itemDto.getRequestId())
+                null,
+                null
+        );
+    }
+
+    public static Item toItemNew(ItemDto itemDto) {
+        return new Item(
+                null,
+                itemDto.getName(),
+                itemDto.getDescription(),
+                itemDto.getAvailable(),
+                null,
+                null
         );
     }
 }

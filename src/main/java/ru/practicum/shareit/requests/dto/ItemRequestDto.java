@@ -7,10 +7,8 @@ import java.time.LocalDateTime;
 
 @Value
 public class ItemRequestDto {
-
     Long id;
     String description;
-    User requestor;
+    User requester;
     LocalDateTime created;
-
 }

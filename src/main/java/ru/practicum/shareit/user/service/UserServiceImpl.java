@@ -3,7 +3,6 @@ package ru.practicum.shareit.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.ConflictException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.model.User;
@@ -20,20 +19,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUserById(long userId) {
-        return userRepository.getUserById(userId)
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Введено некорректное значение id"));
     }
 
     @Override
-    public User updateUser(long userId, User user) {
-        getUserById(userId);
-        validateUserEmail(user);
-        return userRepository.updateUser(userId, user);
+    public User updateUser(long userId, User newUser) {
+        User user = getUserById(userId);
+        if (newUser.getName() != null && !newUser.getName().isBlank()) {
+            user.setName(newUser.getName());
+        }
+        if (newUser.getEmail() != null && !newUser.getEmail().isBlank()) {
+            user.setEmail(newUser.getEmail());
+        }
+        return userRepository.save(user);
     }
 
     @Override
@@ -41,22 +45,12 @@ public class UserServiceImpl implements UserService {
         if (user.getEmail() == null) {
             throw new ValidationException("Введен некорректный email");
         }
-        validateUserEmail(user);
-        return userRepository.createUser(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public boolean deleteUser(long userId) {
+    public void deleteUser(Long userId) {
         getUserById(userId);
-        return userRepository.deleteUser(userId);
-    }
-
-    private User validateUserEmail(User user) {
-        for (User u : getAllUsers()) {
-            if (u.getEmail().equals(user.getEmail())) {
-                throw new ConflictException("Такой email уже зарегистрирован");
-            }
-        }
-        return user;
+        userRepository.deleteById(userId);
     }
 }
