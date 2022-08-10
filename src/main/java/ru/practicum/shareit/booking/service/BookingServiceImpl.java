@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookingServiceImpl implements BookingService{
+public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserService userService;
@@ -55,7 +55,7 @@ public class BookingServiceImpl implements BookingService{
         Booking booking = getBookingById(userId, bookingId);
         Item item = itemService.getItemById(booking.getItem().getId());
         validateUpdateBookingStatus(user, item, booking);
-        if(approved) {
+        if (approved) {
             booking.setStatus(BookingStatus.APPROVED);
         }
         if (!approved) {
