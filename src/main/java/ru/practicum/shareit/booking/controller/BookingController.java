@@ -1,12 +1,10 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.booking.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * // TODO .
- */
+
 @RestController
-@RequestMapping("/items")
-public class ItemController {
+@RequestMapping(path = "/bookings")
+public class BookingController {
 }

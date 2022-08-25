@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking.dto;
+package ru.practicum.shareit.booking.model;
 
 import lombok.Setter;
 import lombok.Value;
@@ -9,7 +9,7 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDate;
 
 @Value
-public class BookingDto {
+public class Booking {
 
     long id;
     LocalDate start;
@@ -18,5 +18,5 @@ public class BookingDto {
     User booker;
     @NonFinal
     @Setter
-    String status;
+    String status; // WAITING, APPROVED, REJECTED, CANCELED
 }
