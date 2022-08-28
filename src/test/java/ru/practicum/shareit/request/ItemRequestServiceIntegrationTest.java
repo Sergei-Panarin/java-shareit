@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.model.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
