@@ -38,7 +38,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getAllItemsByOwnerId(Long ownerId, Integer from, Integer size) {
         Pageable pageable = PageRequest.of(from / size, size);
         List<Item> itemList = itemRepository.findByOwnerId(ownerId, pageable);
-        if (itemList.size() > 1) { itemList.sort(Comparator.comparing(Item::getId)); }
+        if (itemList.size() > 1) {
+            itemList.sort(Comparator.comparing(Item::getId));
+        }
         return itemList;
     }
 
