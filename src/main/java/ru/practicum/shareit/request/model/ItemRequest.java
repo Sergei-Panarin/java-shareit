@@ -1,4 +1,4 @@
-package ru.practicum.shareit.requests.model;
+package ru.practicum.shareit.request.model;
 
 import lombok.*;
 import ru.practicum.shareit.user.model.User;
@@ -26,4 +26,17 @@ public class ItemRequest {
     private User requester;
     @NotNull
     private LocalDateTime created;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemRequest that = (ItemRequest) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
