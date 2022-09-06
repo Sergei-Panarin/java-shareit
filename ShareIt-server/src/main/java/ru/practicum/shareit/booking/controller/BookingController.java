@@ -8,8 +8,6 @@ import ru.practicum.shareit.booking.dto.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.service.BookingService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +26,7 @@ public class BookingController {
 
     @PostMapping
     public BookingDto createBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                    @RequestBody @Valid BookingDtoNew bookingDtoNew) {
+                                    @RequestBody BookingDtoNew bookingDtoNew) {
         Booking booking = bookingMapper.toBookingNew(bookingDtoNew);
         booking = bookingService.createBooking(userId, bookingDtoNew.getItemId(), booking);
         return bookingMapper.toBookingDto(booking);
@@ -52,8 +50,8 @@ public class BookingController {
     @GetMapping
     public List<BookingDto> getBookingsByUserIdAndState(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                         @RequestParam(defaultValue = "ALL") String state,
-                                                        @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                                        @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+                                                        @RequestParam(defaultValue = "0") Integer from,
+                                                        @RequestParam(defaultValue = "10") Integer size) {
         return bookingService.getBookingsByUserIdAndState(userId,state, from, size)
                 .stream()
                 .map(bookingMapper::toBookingDto)
@@ -63,8 +61,8 @@ public class BookingController {
     @GetMapping("/owner")
     public List<BookingDto> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") Long userId,
                                              @RequestParam(defaultValue = "ALL") String state,
-                                             @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                             @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+                                             @RequestParam(defaultValue = "0") Integer from,
+                                             @RequestParam(defaultValue = "10") Integer size) {
         return bookingService.getOwnerBookings(userId,state, from, size)
                 .stream()
                 .map(bookingMapper::toBookingDto)

@@ -8,7 +8,6 @@ import ru.practicum.shareit.user.dto.UserMapper;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,14 +33,14 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable long userId,@Valid @RequestBody UserDto userDto) {
+    public UserDto updateUser(@PathVariable long userId,@RequestBody UserDto userDto) {
         userDto.setId(userId);
         User user = userMapper.toUser(userDto);
         return userMapper.toUserDto(userService.updateUser(userId, user));
     }
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+    public UserDto createUser(@RequestBody UserDto userDto) {
         User user = userMapper.toUser(userDto);
         return userMapper.toUserDto(userService.createUser(user));
     }

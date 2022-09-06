@@ -10,8 +10,6 @@ import ru.practicum.shareit.request.dto.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.ItemRequestService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,16 +33,16 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestDto createItemRequest(@RequestHeader("X-Sharer-User-Id") Long ownerId,
-                                                            @Valid @RequestBody ItemRequestDto itemRequestDto) {
+                                            @RequestBody ItemRequestDto itemRequestDto) {
         ItemRequest itemRequest = ItemRequestMapper.toItemRequest(itemRequestDto);
         return ItemRequestMapper.toItemRequestDto(itemRequestService.createItemRequest(ownerId, itemRequest));
     }
 
     @GetMapping("/all")
     public List<ItemRequestDto> getAllRequestsByPage(
-            @RequestHeader("X-Sharer-User-Id") Long ownerId,
-            @RequestParam(defaultValue = "0") @Min(0) Integer from,
-            @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+                                            @RequestHeader("X-Sharer-User-Id") Long ownerId,
+                                            @RequestParam(defaultValue = "0") Integer from,
+                                            @RequestParam(defaultValue = "10") Integer size) {
         List<ItemRequestDto> requestDtos = itemRequestService.getAllRequestsByPage(ownerId, from, size).stream()
                 .map(ItemRequestMapper::toItemRequestDto).collect(Collectors.toList());
         requestDtos.forEach(request -> request.setItems(itemService.getItemsByRequestId(request.getId())

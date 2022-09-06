@@ -14,8 +14,6 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.service.ItemRequestService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +42,8 @@ public class ItemController {
 
     @GetMapping
     public List<ItemDto> getAllItemsByOwnerId(@RequestHeader("X-Sharer-User-Id") Long ownerId,
-                                              @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                              @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+                                              @RequestParam(defaultValue = "0") Integer from,
+                                              @RequestParam(defaultValue = "10") Integer size) {
         List<ItemDto> itemDtoList = itemService.getAllItemsByOwnerId(ownerId, from, size)
                 .stream()
                 .map(ItemMapper::toItemDto)
@@ -57,7 +55,7 @@ public class ItemController {
 
     @PostMapping
     public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long ownerId,
-                              @RequestBody @Valid ItemDto itemDto) {
+                              @RequestBody ItemDto itemDto) {
         Item item = ItemMapper.toItemNew(itemDto);
         if (itemDto.getRequestId() != null) {
             item.setRequest(itemRequestService.getItemRequestById(ownerId, itemDto.getRequestId()));
@@ -78,8 +76,8 @@ public class ItemController {
 
     @GetMapping("/search")
     public List<ItemDto> searchItemsByTextInNameAndDescription(@RequestParam(name = "text", required = false) String text,
-                                                               @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                                               @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+                                                               @RequestParam(defaultValue = "0") Integer from,
+                                                               @RequestParam(defaultValue = "10") Integer size) {
         return itemService.searchItemsByTextInNameAndDescription(text, from, size)
                 .stream()
                 .map(ItemMapper::toItemDto)
@@ -95,7 +93,7 @@ public class ItemController {
     @PostMapping("/{itemId}/comment")
     public CommentDto createComment(@RequestHeader("X-Sharer-User-Id") Long userId,
                                     @PathVariable Long itemId,
-                                    @RequestBody @Valid CommentDto commentDto) {
+                                    @RequestBody CommentDto commentDto) {
         Comment comment = CommentMapper.toComment(commentDto);
         log.info("Create comment {} for item id = {} by user id = {}", commentDto, itemId, userId);
         return CommentMapper.toCommentDto(itemService.createComment(userId, itemId, comment));

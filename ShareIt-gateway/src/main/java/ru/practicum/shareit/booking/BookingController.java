@@ -22,14 +22,14 @@ public class BookingController {
     private final BookingClient bookingClient;
 
     @PostMapping
-    public ResponseEntity<Object> createBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ResponseEntity<Object> createBooking(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
                                                 @RequestBody @Valid BookItemRequestDto bookingDto) {
         log.info("Create booking {} by user id = {}", bookingDto, userId);
         return bookingClient.createBooking(userId, bookingDto);
     }
 
     @PatchMapping("/{bookingId}")
-    public ResponseEntity<Object> updateBookingStatus(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ResponseEntity<Object> updateBookingStatus(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
                                           @PathVariable @Positive Long bookingId,
                                           @RequestParam Boolean approved) {
         log.info("Update booking id = {} by user id = {} with approved = {}", bookingId, userId, approved);
@@ -37,14 +37,14 @@ public class BookingController {
     }
 
     @GetMapping("/{bookingId}")
-    public ResponseEntity<Object> getBookingById(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ResponseEntity<Object> getBookingById(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
                                      @PathVariable @Positive Long bookingId) {
         log.info("Get booking id = {} by user id = {}", bookingId, userId);
         return bookingClient.getBookingById(userId, bookingId);
     }
 
     @GetMapping
-    public ResponseEntity<Object> getBookingsByUserIdAndState(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ResponseEntity<Object> getBookingsByUserIdAndState(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
                                                         @RequestParam(defaultValue = "ALL") String state,
                                                         @RequestParam(defaultValue = "0") @Min(0) Integer from,
                                                         @RequestParam(defaultValue = "10") @Min(1) Integer size) {
@@ -55,7 +55,7 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public ResponseEntity<Object> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ResponseEntity<Object> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
                                              @RequestParam(defaultValue = "ALL") String state,
                                              @RequestParam(defaultValue = "0") @Min(0) Integer from,
                                              @RequestParam(defaultValue = "10") @Min(1) Integer size) {
